@@ -2,6 +2,61 @@
 
 The Home Network Management System (HNMS) is designed as a modular, high-performance monitoring suite. It leverages a modern asynchronous backend and a reactive frontend to provide real-time visibility into local network environments.
 
+![Dashboard Overview](../.img/dashboard.png)
+
+## ✨ Key Features
+
+| Feature | Description |
+| :--- | :--- |
+| **Dual-Mode Discovery** | Parallel Scapy ARP + ICMP Ping sweeps for 100% device parity across Docker & Windows. |
+| **Dynamic Classification** | Fully editable rules engine in the UI for custom icons and device-type matching. |
+| **Integrated SSH** | Direct, secure web-based terminal access to your network devices. |
+| **Analytical History** | Immutable scan logs and uptime trends with sub-second precision. |
+| **Premium UX** | Modern glassmorphism design with unified notification toasts and custom modals. |
+| **Rock-Solid Stability** | Shared-connection logic resolves database locking issues in high-concurrency environments. |
+| **Timezone Aware** | Optimized timestamp handling with automatic UTC synchronization. |
+| **AdGuard Home** | DNS-level analytics and per-device query tracking. |
+| **OpenWrt Integration** | Sync DHCP leases and real-time traffic data from your router. |
+| **MQTT & Home Assistant** | Publish device presence as binary sensors to your smart home. |
+
+---
+
+## 📸 Gallery
+
+### Device Management
+![Device List](../.img/devices.png)
+*Granular control over your network inventory with vendor-specific metadata.*
+
+### Intelligent Classification
+![Settings](../.img/settings.png)
+*Manage how devices are identified with customizable Regex and Port rules.*
+
+### Integrated SSH Terminal
+![SSH Terminal](../.img/ssh-terminal.png)
+*Direct, secure web-based shell access to your network devices.*
+
+### High-Fidelity Device Details
+![Device Details](../.img/device-details.png)
+*Sub-second precision on device availability and deep port audit history.*
+
+### Activity & Scan History
+![Events Log](../.img/events.png)
+*Visualize spikes in network movement and monitor hardware stability.*
+
+### Scan Logs
+![Scans](../.img/scans.png)
+*Full historical record of every network discovery cycle.*
+
+### Occupancy Tracking
+![Occupancy](../.img/occupancy.png)
+*Track which devices are home or away over time.*
+
+### Home Assistant Discovery
+![HA Discovery](../.img/HA%20Dsicovery.png)
+*HNMS auto-registers devices as binary sensors in Home Assistant via MQTT Discovery.*
+
+---
+
 ## Architecture Overview
 
 The system is split into three main layers:

@@ -41,17 +41,22 @@ HNMS publishes data using the following patterns:
 
 ## Home Assistant MQTT Discovery
 
-When "Home Assistant Discovery" is enabled in settings, HNMS automatically registers every discovered device as a **Binary Sensor** in Home Assistant.
+When "Home Assistant Discovery" is enabled in settings, HNMS automatically registers every discovered device as a **`device_tracker`** entity in Home Assistant.
+
+![Home Assistant Discovery](../.img/HA%20Dsicovery.png)
+
+> [!TIP]
+> For a full walkthrough including topic structure, discovery payloads, Lovelace cards, and automation examples, see the [Home Assistant Integration Guide](./home_assistant_integration.md).
 
 ### How it Works
 1.  HNMS publishes a configuration payload to:
-    `homeassistant/binary_sensor/hnms_{mac_clean}/config`
-2.  Home Assistant sees this and creates a new entity (e.g., `binary_sensor.iphone_15_pro`).
-3.  The device appears as "On" when connected (`home`) and "Off" when disconnected (`not_home`).
+    `homeassistant/device_tracker/hnms_{mac_clean}/config`
+2.  Home Assistant sees this and creates a new `device_tracker` entity (e.g., `device_tracker.my_iphone`).
+3.  The device shows as **Home** when connected (`online`) and **Away** when disconnected (`offline`).
 
 ### Entity Metadata
 Devices registered via discovery include:
-- **Device Class**: `connectivity`
+- **Device Class**: `device_tracker`
 - **Icon**: Automatically mapped from HNMS classification (e.g., `mdi:router` for infrastructure).
 - **Manufacturer**: The MAC vendor (e.g., `Samsung Electronics`).
 - **Model**: The classified device type.

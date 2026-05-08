@@ -2,6 +2,18 @@
 
 HNMS is designed to be flexible. You can run it as a production-ready Docker container or set it up manually for development.
 
+## 🐋 Docker Image
+
+The official HNMS Docker image is available on Docker Hub:
+
+```bash
+docker pull wglabz/hnms:latest
+```
+
+[View on Docker Hub →](https://hub.docker.com/r/wglabz/hnms)
+
+---
+
 ## 🐋 Docker Setup (Recommended)
 
 Docker is the easiest way to get HNMS running with all its dependencies pre-configured.
@@ -10,7 +22,20 @@ Docker is the easiest way to get HNMS running with all its dependencies pre-conf
 - Docker and Docker Compose.
 - **Linux Host**: Highly recommended for full Scapy performance (`network_mode: host`).
 
-### 2. Docker Compose
+### 2. Environment Variables
+
+Configure the container behavior using these environment variables:
+
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `APP_ENV` | `production` | Set to `development` for debug logging. |
+| `DB_PATH` | `/data/network_scanner.duckdb` | Path to the database file inside the container. |
+| `DB_SCHEMA_PATH` | `app/schema.sql` | Path to the schema file inside the container. |
+| `WORKERS` | `1` | Number of concurrent scan workers (1 is recommended for Raspberry Pi). |
+| `MQTT_ENABLED` | `false` | Set to `true` to enable MQTT publishing. |
+| `MQTT_HOST` | `localhost` | IP/Hostname of your MQTT broker. |
+
+### 3. Docker Compose
 Create a `docker-compose.yml` file:
 
 ```yaml
@@ -28,7 +53,23 @@ services:
     restart: unless-stopped
 ```
 
-### 3. Launch
+### 4. Persistent Storage
+To preserve your device history and configuration across container updates, map a local directory to `/data`:
+
+```yaml
+volumes:
+  - ./hnms_data:/data
+```
+
+### 5. Networking Requirements (Linux)
+The scanner requires raw socket access to perform ARP requests.
+- **Host Mode** (`network_mode: host`): Gives the scanner full access to the host network interface. **Recommended.**
+- **Bridge Mode**: If using bridge mode, MAC address resolution will be limited to the container's virtual interface.
+
+> [!IMPORTANT]
+> For Linux deployments, always use `network_mode: host` to allow the scanner full access to the network interface.
+
+### 6. Launch
 ```bash
 docker-compose up -d
 ```
@@ -72,15 +113,18 @@ If you want to contribute to the project or run it natively:
 
 ## 🛠️ Windows Troubleshooting
 
-### Npcap Configuration
-The scanner uses Scapy, which requires a packet capture driver. 
-- Download: **[Npcap](https://npcap.com/#download)**.
+### 1. Install Npcap
+The scanner uses Scapy, which requires a packet capture driver on Windows.
+- Download and install **[Npcap](https://npcap.com/#download)**.
 - **IMPORTANT**: Ensure "Install Npcap in WinPcap API-compatible Mode" is checked during installation.
 
-### Permissions
-Sending raw network packets (ARP) requires high-level privileges. Always open your terminal as **Administrator** before running the backend.
+### 2. Run as Administrator
+Sending raw network packets (ARP) requires high-level privileges. Always open your terminal (PowerShell or CMD) as **Administrator** before running the backend.
 
-### Firewall
+### 3. Automatic Fallback
+The system includes a smart fallback. If raw ARP packets are restricted by your security policy, HNMS will automatically pivot to a **Parallel Ping Sweep**. This ensures devices are found even without specialized drivers.
+
+### 4. Firewall
 If devices are not being found:
 - Ensure the devices are on the same subnet as the host.
 - Temporarily disable host firewall to test if ARP packets are being blocked.
