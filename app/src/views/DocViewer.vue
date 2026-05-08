@@ -82,7 +82,17 @@ const fetchDoc = async (docId) => {
     
     // Render Mermaid diagrams after content is injected
     await nextTick()
-    await mermaid.run()
+    try {
+      const mermaidNodes = document.querySelectorAll('.mermaid')
+      if (mermaidNodes.length > 0) {
+        await mermaid.run({
+          querySelector: '.mermaid',
+          suppressErrors: true
+        })
+      }
+    } catch (e) {
+      console.warn("Mermaid render failed:", e)
+    }
   } catch (err) {
     error.value = err.message
   } finally {
