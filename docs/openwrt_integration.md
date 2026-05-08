@@ -1,10 +1,10 @@
 # OpenWRT Integration Guide
 
-Integrate your OpenWRT router with HNMS to automatically sync device lists (DHCP leases) and track real-time data consumption.
+Integrate your OpenWRT router with IPLoom to automatically sync device lists (DHCP leases) and track real-time data consumption.
 
 ## How it Works
 
-HNMS uses a **"Pull" model**, connecting to your router via its JSON-RPC API (`ubus`/`luci-rpc`) every 15 minutes (configurable).
+IPLoom uses a **"Pull" model**, connecting to your router via its JSON-RPC API (`ubus`/`luci-rpc`) every 15 minutes (configurable).
 
 **Features:**
 - **Traffic Monitoring**: Tracks Download/Upload usage per device (requires `nlbwmon`) for **all** devices, including Static IPs.
@@ -69,9 +69,9 @@ By default, the router blocks `exec` commands. You must allow `nlbw` to run.
 
 ---
 
-## 2. HNMS Configuration
+## 2. IPLoom Configuration
 
-1. Go to **Settings** in HNMS.
+1. Go to **Settings** in IPLoom.
 2. Scroll to the **OpenWRT Integration** section.
 3. Enter your details:
    - **Router URL**: e.g., `http://192.168.1.1`
@@ -85,4 +85,4 @@ By default, the router blocks `exec` commands. You must allow `nlbw` to run.
 
 -   **Connection Failed**: Ensure `uhttpd` is running on the router and not blocked by firewall rules limiting access to LAN only.
 -   **No Traffic Data**: Verify `nlbwmon` is running (`ps | grep nlbwmon`) and has gathered data (`ubus call nlbwmon dump`).
--   **Missing Devices**: Ensure the device has been discovered by the HNMS Network Scanner first. The OpenWRT integration ignores unknown devices to prevent database clutter.
+-   **Missing Devices**: Ensure the device has been discovered by the IPLoom Network Scanner first. The OpenWRT integration ignores unknown devices to prevent database clutter.

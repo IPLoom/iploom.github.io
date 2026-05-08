@@ -1,22 +1,22 @@
 # Setup Guide
 
-HNMS is designed to be flexible. You can run it as a production-ready Docker container or set it up manually for development.
+IPLoom is designed to be flexible. You can run it as a production-ready Docker container or set it up manually for development.
 
 ## 🐋 Docker Image
 
-The official HNMS Docker image is available on Docker Hub:
+The official IPLoom Docker image is available on Docker Hub:
 
 ```bash
-docker pull wglabz/hnms:latest
+docker pull wglabz/iploom:latest
 ```
 
-[View on Docker Hub →](https://hub.docker.com/r/wglabz/hnms)
+[View on Docker Hub →](https://hub.docker.com/r/wglabz/iploom)
 
 ---
 
 ## 🐋 Docker Setup (Recommended)
 
-Docker is the easiest way to get HNMS running with all its dependencies pre-configured.
+Docker is the easiest way to get IPLoom running with all its dependencies pre-configured.
 
 ### 1. Requirements
 - Docker and Docker Compose.
@@ -41,12 +41,12 @@ Create a `docker-compose.yml` file:
 ```yaml
 version: '3.8'
 services:
-  hnms:
-    image: wglabz/hnms:latest
-    container_name: hnms
+  iploom:
+    image: wglabz/iploom:latest
+    container_name: iploom
     network_mode: host # Required for Scapy discovery
     volumes:
-      - ./hnms_data:/data
+      - ./iploom_data:/data
     environment:
       - APP_ENV=production
       - DB_PATH=/data/network_scanner.duckdb
@@ -58,7 +58,7 @@ To preserve your device history and configuration across container updates, map 
 
 ```yaml
 volumes:
-  - ./hnms_data:/data
+  - ./iploom_data:/data
 ```
 
 ### 5. Networking Requirements (Linux)
@@ -122,7 +122,7 @@ The scanner uses Scapy, which requires a packet capture driver on Windows.
 Sending raw network packets (ARP) requires high-level privileges. Always open your terminal (PowerShell or CMD) as **Administrator** before running the backend.
 
 ### 3. Automatic Fallback
-The system includes a smart fallback. If raw ARP packets are restricted by your security policy, HNMS will automatically pivot to a **Parallel Ping Sweep**. This ensures devices are found even without specialized drivers.
+The system includes a smart fallback. If raw ARP packets are restricted by your security policy, IPLoom will automatically pivot to a **Parallel Ping Sweep**. This ensures devices are found even without specialized drivers.
 
 ### 4. Firewall
 If devices are not being found:

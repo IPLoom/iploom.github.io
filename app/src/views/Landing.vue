@@ -1,5 +1,5 @@
 <script setup>
-import { Shield, Activity, Zap, Lock, Globe, Server, ArrowRight } from 'lucide-vue-next'
+import { Shield, Activity, Zap, Lock, Globe, Server, ArrowRight, Router, Home, ShieldCheck } from 'lucide-vue-next'
 
 const features = [
   {
@@ -31,6 +31,45 @@ const features = [
     icon: Shield,
     title: 'Privacy First',
     description: 'All your network data stays local. No cloud dependencies, no tracking.'
+  }
+]
+
+const integrations = [
+  {
+    icon: Router,
+    title: 'OpenWrt',
+    badge: 'Router',
+    badgeColor: 'from-sky-500/20 to-cyan-500/20 border-sky-500/30 text-sky-400',
+    iconBg: 'bg-sky-500/10',
+    iconColor: 'text-sky-400',
+    accentColor: 'group-hover:shadow-sky-900/40',
+    description: 'Sync DHCP leases and per-device traffic data directly from your OpenWrt router via the LuCI JSON-RPC API.',
+    features: ['Traffic monitoring (nlbwmon)', 'DHCP lease tracking', 'Static IP correlation'],
+    route: '/docs/openwrt_integration'
+  },
+  {
+    icon: Home,
+    title: 'Home Assistant',
+    badge: 'Smart Home',
+    badgeColor: 'from-violet-500/20 to-purple-500/20 border-violet-500/30 text-violet-400',
+    iconBg: 'bg-violet-500/10',
+    iconColor: 'text-violet-400',
+    accentColor: 'group-hover:shadow-violet-900/40',
+    description: 'Auto-register every network device as a device_tracker entity in Home Assistant via MQTT Discovery — no YAML required.',
+    features: ['MQTT Discovery', 'Presence tracking', 'Rich metadata attributes'],
+    route: '/docs/home_assistant_integration'
+  },
+  {
+    icon: ShieldCheck,
+    title: 'AdGuard Home',
+    badge: 'DNS',
+    badgeColor: 'from-emerald-500/20 to-green-500/20 border-emerald-500/30 text-emerald-400',
+    iconBg: 'bg-emerald-500/10',
+    iconColor: 'text-emerald-400',
+    accentColor: 'group-hover:shadow-emerald-900/40',
+    description: 'Pull DNS query logs and block stats from AdGuard Home to get per-device analytics and ad-blocking visibility.',
+    features: ['Per-device DNS analytics', 'Block rate tracking', '7-day log retention'],
+    route: '/docs/adguard_integration'
   }
 ]
 </script>
@@ -80,6 +119,50 @@ const features = [
           <h3 class="text-xl font-bold text-white mb-4">{{ feature.title }}</h3>
           <p class="text-slate-400 leading-relaxed">{{ feature.description }}</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Integrations Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-32">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Powerful Integrations</h2>
+        <p class="text-lg text-slate-400 max-w-2xl mx-auto">Connect IPLoom with the tools already running on your network for a unified smart home experience.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <router-link
+          v-for="integration in integrations"
+          :key="integration.title"
+          :to="integration.route"
+          class="glass-card p-8 group flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+          :class="integration.accentColor"
+        >
+          <!-- Badge -->
+          <div class="flex items-center justify-between mb-6">
+            <div :class="['w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform', integration.iconBg]">
+              <component :is="integration.icon" :class="['w-6 h-6', integration.iconColor]" />
+            </div>
+            <span :class="['text-xs font-semibold px-3 py-1 rounded-full bg-gradient-to-r border', integration.badgeColor]">
+              {{ integration.badge }}
+            </span>
+          </div>
+
+          <!-- Title & Description -->
+          <h3 class="text-xl font-bold text-white mb-3">{{ integration.title }}</h3>
+          <p class="text-slate-400 leading-relaxed text-sm mb-6">{{ integration.description }}</p>
+
+          <!-- Feature List -->
+          <ul class="space-y-2 mb-8 flex-grow">
+            <li v-for="feat in integration.features" :key="feat" class="flex items-center text-sm text-slate-300">
+              <span :class="['w-1.5 h-1.5 rounded-full mr-2 flex-shrink-0', integration.iconColor.replace('text-', 'bg-')]"></span>
+              {{ feat }}
+            </li>
+          </ul>
+
+          <!-- CTA -->
+          <div :class="['flex items-center text-sm font-semibold mt-auto', integration.iconColor]">
+            Read the guide <ArrowRight class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </router-link>
       </div>
     </section>
 

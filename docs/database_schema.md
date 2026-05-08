@@ -1,6 +1,6 @@
 # Database Schema
 
-HNMS utilizes **DuckDB** for its primary data storage. DuckDB was chosen for its high-performance columnar storage, making it ideal for analytical queries over historical network data while remaining lightweight enough to run on embedded systems.
+IPLoom utilizes **DuckDB** for its primary data storage. DuckDB was chosen for its high-performance columnar storage, making it ideal for analytical queries over historical network data while remaining lightweight enough to run on embedded systems.
 
 ## Entity Relationship Diagram
 
@@ -75,7 +75,7 @@ Stores data consumption metrics gathered from integrations like **OpenWrt**.
 
 ## Performance Optimization
 
-HNMS uses specialized indexes to ensure that historical queries remain fast even after months of data collection:
+IPLoom uses specialized indexes to ensure that historical queries remain fast even after months of data collection:
 - `idx_history_device_id`: Fast lookup for specific device uptime.
 - `idx_traffic_timestamp`: Optimized for rendering traffic charts over time.
 - `idx_scan_results_mac`: Correlation between devices and their scan history.
@@ -96,4 +96,4 @@ LIMIT 5;
 ```
 
 > [!CAUTION]
-> Avoid modifying the database while the HNMS service is running to prevent database locking issues.
+> Avoid modifying the database while the IPLoom service is running to prevent database locking issues.

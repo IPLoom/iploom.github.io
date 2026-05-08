@@ -1,10 +1,10 @@
 # Scanning Engine
 
-The Scanning Engine is the heart of HNMS. it is designed to be resilient, fast, and capable of operating across different network environments (Linux vs. Windows, Docker vs. Bare Metal).
+The Scanning Engine is the heart of IPLoom. It is designed to be resilient, fast, and capable of operating across different network environments (Linux vs. Windows, Docker vs. Bare Metal).
 
 ## Discovery Logic
 
-HNMS uses a multi-layered approach to ensure 100% device parity. It prioritizes low-level hardware discovery but includes high-level network fallbacks.
+IPLoom uses a multi-layered approach to ensure 100% device parity. It prioritizes low-level hardware discovery but includes high-level network fallbacks.
 
 ### Discovery Sequence
 
@@ -50,16 +50,16 @@ Scapy generates raw Ethernet frames with ARP requests addressed to the broadcast
 - **Cons**: Requires `root` or `Administrator` privileges; requires `network_mode: host` in Docker.
 
 ### 2. Parallel Ping Sweep (Fallback)
-If Layer 2 access is restricted (common on Windows without Npcap or in bridge-mode Docker), HNMS pivots to a Layer 3 ICMP ping sweep.
+If Layer 2 access is restricted (common on Windows without Npcap or in bridge-mode Docker), IPLoom pivots to a Layer 3 ICMP ping sweep.
 - **Logic**: Uses `asyncio.Semaphore` to ping hundreds of IPs simultaneously.
-- **MAC Resolution**: After a successful ping, HNMS attempts to resolve the MAC address by querying the system's local ARP cache (`arp -a`).
+- **MAC Resolution**: After a successful ping, IPLoom attempts to resolve the MAC address by querying the system's local ARP cache (`arp -a`).
 
 ## Enrichment Phase
 
-Once a device is found, HNMS performs "Enrichment" to gather more metadata:
+Once a device is found, IPLoom performs "Enrichment" to gather more metadata:
 
 ### Port Scanning
-Instead of scanning all 65,535 ports, HNMS uses a **Targeted Port Strategy**:
+Instead of scanning all 65,535 ports, IPLoom uses a **Targeted Port Strategy**:
 1.  **Rule-Based Ports**: It extracts all ports defined in your **Classification Rules**.
 2.  **Basics**: It always checks common infrastructure ports (80, 443, 22, 1883, 8123, etc.).
 3.  **Deep Audit**: If a manual "Deep Audit" is triggered, it scans the top 1000 common ports.

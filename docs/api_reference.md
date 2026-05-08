@@ -1,6 +1,6 @@
 # API Reference
 
-The HNMS Backend provides a standard REST API (v1) for management and monitoring. By default, the API is accessible at `http://{host}:8000/api/v1`.
+The IPLoom Backend provides a standard REST API (v1) for management and monitoring. By default, the API is accessible at `http://{host}:8000/api/v1`.
 
 ## Documentation (Swagger)
 
@@ -43,7 +43,7 @@ A live, interactive Swagger UI is available at:
 ## Authentication
 
 > [!NOTE]
-> Currently, HNMS is designed for local home network use and does not enforce authentication by default. It is recommended to run it behind a reverse proxy (like Nginx or Traefik) if remote access is required.
+> Currently, IPLoom is designed for local home network use and does not enforce authentication by default. It is recommended to run it behind a reverse proxy (like Nginx or Traefik) if remote access is required.
 
 ## Data Formats
 

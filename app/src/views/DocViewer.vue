@@ -18,7 +18,9 @@ const menuItems = [
   { id: 'scanning_engine', title: 'Scanning Engine' },
   { id: 'classification_rules', title: 'Device Classification' },
   { id: 'mqtt_integration', title: 'MQTT & Home Assistant' },
+  { id: 'home_assistant_integration', title: 'Home Assistant Integration' },
   { id: 'openwrt_integration', title: 'OpenWrt Integration' },
+  { id: 'adguard_integration', title: 'AdGuard Home Integration' },
   { id: 'database_schema', title: 'Database Schema' },
   { id: 'api_reference', title: 'API Reference' }
 ]

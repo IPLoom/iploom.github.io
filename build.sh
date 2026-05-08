@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# HNMS Documentation Build & Deploy Script (Root Version)
+# IPLoom Documentation Build & Deploy Script (Root Version)
 # This script manages the compilation of the Vue project in 'app/' 
 # and deploys the static files to the root of the 'Docs' folder.
 
-echo "🚀 Starting HNMS Documentation Build..."
+echo "🚀 Starting IPLoom Documentation Build..."
 
 appDir="app"
 publicDir="$appDir/public"
@@ -44,6 +44,18 @@ if [ $buildStatus -eq 0 ]; then
     rm -rf "$publicDir/Brand"
     
     echo "✨ Documentation is now updated and ready at the root!"
+
+    # 5. Commit & Push to GitHub
+    echo "📤 Committing and pushing to GitHub..."
+    git add -A
+    if git diff --cached --quiet; then
+        echo "ℹ️  No changes to commit."
+    else
+        COMMIT_MSG="docs: build $(date '+%Y-%m-%d %H:%M:%S')"
+        git commit -m "$COMMIT_MSG"
+        git push
+        echo "✅ Pushed to remote: $COMMIT_MSG"
+    fi
 else
     echo "❌ Build failed. Please check the errors above."
     exit $buildStatus

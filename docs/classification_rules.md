@@ -1,6 +1,6 @@
 # Device Classification Rules
 
-HNMS features a powerful, dynamic classification engine that allows you to transform raw network data (MACs and IPs) into a meaningful inventory with custom icons and labels.
+IPLoom features a powerful, dynamic classification engine that allows you to transform raw network data (MACs and IPs) into a meaningful inventory with custom icons and labels.
 
 ## Rule Matching Logic
 
@@ -43,7 +43,7 @@ A classification rule consists of several optional patterns. A rule matches only
 ## Priority & Built-in Rules
 
 - **Priority**: Lower numbers represent higher priority (e.g., a rule with priority `10` is checked before priority `100`).
-- **Built-in Rules**: HNMS comes with a set of "Built-in" rules (priority `1000+`) to identify common devices like Home Assistant, ESPHome, and standard routers. These can be overridden by creating custom rules with higher priority (lower numbers).
+- **Built-in Rules**: IPLoom comes with a set of "Built-in" rules (priority `1000+`) to identify common devices like Home Assistant, ESPHome, and standard routers. These can be overridden by creating custom rules with higher priority (lower numbers).
 
 ## Creating a Custom Rule
 
