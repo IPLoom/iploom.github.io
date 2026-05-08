@@ -56,7 +56,7 @@ const features = [
       </h1>
       
       <p class="text-xl text-slate-400 max-w-3xl mx-auto mb-12 leading-relaxed">
-        HNMS is a professional-grade, web-based network monitoring and security suite. 
+        IPLoom is a professional-grade, web-based network monitoring and security suite. 
         Gain total visibility over your local devices with real-time analytics and intelligent discovery.
       </p>
       
@@ -88,7 +88,7 @@ const features = [
       <div class="glass-card p-12 text-center bg-gradient-to-br from-primary-600/10 to-indigo-600/10">
         <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Ready to secure your network?</h2>
         <p class="text-lg text-slate-400 mb-10 max-w-2xl mx-auto">
-          Deploy HNMS today and get a bird's-eye view of your connected home. 
+          Deploy IPLoom today and get a bird's-eye view of your connected home. 
           Works on Raspberry Pi, NAS, and standard Linux servers.
         </p>
         <router-link to="/docs/setup_guide" class="inline-flex items-center bg-white text-slate-950 px-8 py-4 rounded-xl text-lg font-bold hover:bg-slate-200 transition-all">

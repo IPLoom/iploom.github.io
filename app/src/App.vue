@@ -1,5 +1,5 @@
 <script setup>
-import { Shield, Github, Book, Home } from 'lucide-vue-next'
+import { Github, Book, Home } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -9,8 +9,7 @@ import { Shield, Github, Book, Home } from 'lucide-vue-next'
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <router-link to="/" class="flex items-center space-x-2 group">
-            <Shield class="w-8 h-8 text-primary-500 group-hover:scale-110 transition-transform" />
-            <span class="font-bold text-xl tracking-tight">HNMS</span>
+            <img src="/Brand/iploom.png" alt="IPLoom" class="h-8 w-auto group-hover:scale-105 transition-transform" />
           </router-link>
           
           <div class="hidden md:flex items-center space-x-8">
@@ -47,8 +46,7 @@ import { Shield, Github, Book, Home } from 'lucide-vue-next'
     <footer class="bg-slate-950 border-t border-white/5 py-12">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div class="flex items-center justify-center space-x-2 mb-4">
-          <Shield class="w-6 h-6 text-primary-500" />
-          <span class="font-bold text-lg">HNMS</span>
+          <img src="/Brand/iploom.png" alt="IPLoom" class="h-7 w-auto" />
         </div>
         <p class="text-slate-500 text-sm mb-6">Built with ❤️ for the Home Automation Community</p>
         <div class="flex justify-center space-x-6">
