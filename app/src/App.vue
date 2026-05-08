@@ -19,7 +19,7 @@ import { Github, Book, Home } from 'lucide-vue-next'
             <router-link to="/docs" class="text-sm font-medium text-slate-300 hover:text-white transition-colors flex items-center">
               <Book class="w-4 h-4 mr-1" /> Documentation
             </router-link>
-            <a href="https://github.com/IPLoom/iploom.github.io" target="_blank" class="text-sm font-medium text-slate-300 hover:text-white transition-colors flex items-center">
+            <a href="https://github.com/IPLoom" target="_blank" class="text-sm font-medium text-slate-300 hover:text-white transition-colors flex items-center">
               <Github class="w-4 h-4 mr-1" /> GitHub
             </a>
           </div>

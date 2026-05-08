@@ -64,7 +64,7 @@ const features = [
         <router-link to="/docs/setup_guide" class="w-full sm:w-auto bg-primary-600 hover:bg-primary-500 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all flex items-center justify-center shadow-xl shadow-primary-900/40">
           Get Started <ArrowRight class="ml-2 w-5 h-5" />
         </router-link>
-        <a href="https://github.com/IPLoom/iploom.github.io" target="_blank" class="w-full sm:w-auto glass hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all flex items-center justify-center">
+        <a href="https://github.com/IPLoom" target="_blank" class="w-full sm:w-auto glass hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all flex items-center justify-center">
           View on GitHub
         </a>
       </div>
