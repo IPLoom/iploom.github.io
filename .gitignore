@@ -1,0 +1,31 @@
+# Vue Project
+app/node_modules/
+app/dist/
+app/.DS_Store
+app/*.local
+app/.env
+app/.env.*
+!app/.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vite / Build artifacts
+.vite/
+app/.vite/
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor folders
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

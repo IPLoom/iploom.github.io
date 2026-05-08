@@ -1,0 +1,42 @@
+{
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "Welcome to the official documentation for the **Home Network Management System (HNMS)**. This guide provides comprehensive technical details, architectural overviews, and integration instructions for the platform.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IPLoom/iploom.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/IPLoom/iploom.github.io/issues"
+  },
+  "homepage": "https://github.com/IPLoom/iploom.github.io#readme",
+  "dependencies": {
+    "@vueuse/core": "^14.3.0",
+    "lucide-vue-next": "^1.0.0",
+    "marked": "^18.0.3",
+    "mermaid": "^11.14.0",
+    "shiki": "^4.0.2",
+    "vue": "^3.5.34",
+    "vue-router": "^5.0.6"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.6",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^3.4.17",
+    "vite": "^8.0.11"
+  }
+}
