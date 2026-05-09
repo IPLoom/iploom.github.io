@@ -37,7 +37,16 @@ sequenceDiagram
     
     W->>D: Save Scan Results
     W->>D: Upsert Device Inventory
-    W->>D: Mark missing devices as 'offline'
+    
+    rect rgb(230, 245, 255)
+        Note over W, N: Phase 3: Reliability Check (Soft Offline)
+        W->>W: Identify missing 'online' devices
+        W->>N: Perform 3 Intra-Scan Retries (ARP+Ping)
+        N-->>W: Recovery response?
+    end
+
+    W->>D: Increment missing_count for devices still lost
+    W->>D: If missing_count >= 3, set status: 'offline'
     W->>W: Publish MQTT Status
     W->>D: Set status: 'done'
 ```
@@ -66,6 +75,22 @@ Instead of scanning all 65,535 ports, IPLoom uses a **Targeted Port Strategy**:
 
 ### Hostname Resolution
 Performs reverse DNS lookups to identify local network names (e.g., `raspberrypi.local`).
+
+### Vendor Lookup (OUI)
+IPLoom uses a multi-service fallback chain to identify device manufacturers:
+1.  **Local OUI Cache**: Checks a local database of common MAC prefixes.
+2.  **External API Chain**: Iteratively queries `macvendors.com`, `macvendors.co`, and `maclookup.app`.
+3.  **Rate-Limit Handling**: If any service returns a `429 Too Many Requests`, IPLoom engages a **1-hour global cool-down** to prevent further spamming and protect your IP reputation.
+
+## Reliability: Soft Offline & Retries
+
+To prevent dashboard "flickering" (devices jumping between online/offline), IPLoom implements a two-layer reliability check:
+
+### 1. Intra-Scan Retries
+If a previously "Online" device is missing during the initial discovery phase, the system immediately performs **3 targeted re-checks** with a 2-second delay between them. This resolves 90% of temporary network glitches (like a device waking from sleep) within the same scan.
+
+### 2. Multi-Scan Threshold
+If a device fails all intra-scan retries, it is not immediately marked offline. Instead, its `missing_count` is incremented. A device is only declared **Offline** after being missing for **3 consecutive full scan cycles**.
 
 ## Worker Architecture
 
