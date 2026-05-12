@@ -138,6 +138,34 @@ The integration exposes the following internal REST endpoints (prefixed at `/int
 
 ---
 
+## Technical Deep Dive: Data Processing Logic
+
+IPLoom uses a sophisticated ingestion pipeline to ensure DNS data is accurate and doesn't overload the system.
+
+### 1. High-Water Mark Deduplication
+To avoid duplicate entries, the sync engine uses a **Cursor-based polling** strategy:
+- Every successful sync stores the `timestamp` of the most recent query in the database.
+- The next sync cycle requests entries from AdGuard Home and filters them locally: `if query_time > last_sync_cursor`.
+- This ensures that even if sync intervals overlap or AdGuard returns previously seen logs, IPLoom only processes new data.
+
+### 2. IP-to-Device Attribution
+AdGuard Home logs queries by **Client IP**. IPLoom maps these to devices using the following priority:
+1. **Primary Match**: Looks for a device in the `devices` table with a matching IP.
+2. **Status Update**: If found, the device's `last_activity` is updated, and the query is linked to that `device_id`.
+3. **Anonymous Logging**: If the IP is unknown (e.g., a guest device not yet scanned), the query is logged under the IP itself but won't show up on a specific device card.
+
+### 3. Block Detection Logic
+A query is only counted as "Blocked" if its status indicates a filtering action. We explicitly filter out certain statuses to maintain accuracy:
+- **Included as Block**: `FilteredBlackList`, `SafeBrowsing`, `ParentalControl`, `Blocked`.
+- **Excluded**: `FilteredSafeSearch`. We exclude SafeSearch because it represents a *redirect* to a safe version of a site (like Google or YouTube) rather than a denied request. Including it would artificially spike your blocking statistics.
+
+### 4. Database Architecture
+DNS logs are **tiered** to protect system performance:
+- **Main DB**: Stores device metadata and 24h aggregate counters.
+- **DNS DB (`dns_logs.duckdb`)**: A dedicated database optimized for high-volume time-series data. This ensures that a massive spike in DNS traffic doesn't cause lag in the primary device management UI.
+
+---
+
 ## Troubleshooting
 
 - **Status stays "Not Verified"**: Confirm the URL is reachable from the IPLoom host and the username/password are correct. Try the `curl` command from the IPLoom server.

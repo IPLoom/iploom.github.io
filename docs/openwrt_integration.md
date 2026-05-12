@@ -81,6 +81,34 @@ By default, the router blocks `exec` commands. You must allow `nlbw` to run.
 4. Click **Test**. If successful, click **Save**.
 5. You can trigger an immediate sync using the **Sync Now** button.
 
+---
+
+## Technical Deep Dive: Traffic & Lease Logic
+
+The OpenWRT integration handles high-frequency network state data and ensures it remains consistent even if the router restarts.
+
+### 1. Cumulative vs. Delta Traffic
+OpenWRT's `nlbwmon` returns **cumulative** counters (total bytes since the service started). To provide useful "usage per interval" stats, IPLoom performs the following:
+- **State Tracking**: Stores the `previous_total` for every MAC address in `data/openwrt_stats.json`.
+- **Delta Calculation**: `Current Usage = Current_Total - Previous_Total`.
+- **History Logging**: These deltas are stored in the `device_traffic_history` table, enabling the sparklines and traffic charts in the UI.
+
+### 2. Counter Reset Handling (Router Reboots)
+If the router is rebooted or `nlbwmon` is restarted, the cumulative counters reset to zero. 
+- **Detection**: If `Current_Total` is less than `Previous_Total`, IPLoom detects a reset.
+- **Logic**: Instead of logging a negative number or a massive spike, it treats the `Current_Total` as the actual delta for that period. This ensures your graphs remain clean and accurate after a power cycle.
+
+### 3. Device Correlation
+To ensure traffic is attributed to the correct device, IPLoom uses a multi-layered matching strategy:
+1. **MAC Address (Primary)**: Traffic is tracked by MAC address at the router level.
+2. **IP Matching**: DHCP leases are pulled to match MACs to current IPs.
+3. **Internal ID**: The MAC/IP pair is looked up in the IPLoom `devices` table. If the device was already discovered by the **Network Scanner**, the traffic data is linked to its unique ID.
+
+### 4. Pull Model vs. Real-time
+Unlike the Network Scanner (which uses ARP/ICMP), the OpenWRT integration is a **passive observer**. It doesn't ping devices; it simply asks the router "what have you seen lately?" This makes it extremely lightweight and invisible to the network.
+
+---
+
 ## Troubleshooting
 
 -   **Connection Failed**: Ensure `uhttpd` is running on the router and not blocked by firewall rules limiting access to LAN only.
