@@ -35,7 +35,7 @@ To enable extensive monitoring, you need to install `nlbwmon` and file capabilit
    ```
 
 ### Step 2: Configure Permissions (ACL)
-By default, the router blocks `exec` commands. You must allow `nlbw` to run.
+By default, the router blocks `exec` commands. You must allow `nlbw` (for traffic tracking) and `sh` (for firewall blocking) to run.
 
 1.  **Edit the ACL file:**
     ```bash
@@ -51,8 +51,8 @@ By default, the router blocks `exec` commands. You must allow `nlbw` to run.
     },
     ```
 
-3.  **Add the execution permission:**
-    Change it to (add the last line):
+3.  **Add the execution permissions:**
+    Change it to (add the last two lines):
     ```json
     "file": {
         "/": [ "list" ],
