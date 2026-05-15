@@ -35,9 +35,9 @@ To enable extensive monitoring, you need to install `nlbwmon` and file capabilit
    ```
 
 ### Step 2: Configure Permissions (ACL)
-By default, the router blocks `exec` commands. You must allow `nlbw` (for traffic tracking) and `sh` (for firewall blocking) to run.
+By default, the router blocks `exec` commands for remote JSON-RPC sessions. To enable **Real-time Traffic Tracking** and **Immediate Device Blocking**, you must allow specific system commands to run.
 
-1.  **Edit the ACL file:**
+1.  **Edit the base ACL file:**
     ```bash
     vi /usr/share/rpcd/acl.d/luci-base.json
     ```
@@ -52,20 +52,31 @@ By default, the router blocks `exec` commands. You must allow `nlbw` (for traffi
     ```
 
 3.  **Add the execution permissions:**
-    Change it to (add the last two lines):
+    Ensure your `file` section includes the following execution paths:
     ```json
     "file": {
         "/": [ "list" ],
         "/*": [ "list" ],
-        "/usr/sbin/nlbw": [ "exec" ]
+        "/usr/sbin/nlbw": [ "exec" ],
+        "/sbin/uci": [ "exec" ],
+        "/bin/sh": [ "exec" ],
+        "/etc/init.d/firewall": [ "exec" ],
+        "/usr/sbin/conntrack": [ "exec" ]
     },
     ```
-    *(Note: Ensure there are commas at the end of the previous lines)*
+    *(Note: Ensure there are commas at the end of each line to maintain valid JSON syntax)*
 
-4.  **Restart RPC Daemon:**
+4.  **Restart the RPC Daemon:**
     ```bash
     /etc/init.d/rpcd restart
     ```
+
+This grants the integration permission to run:
+- `/usr/sbin/nlbw`: For bandwidth tracking.
+- `/sbin/uci`: For prioritizing firewall rules.
+- `/bin/sh`: For executing system scripts.
+- `/etc/init.d/firewall`: For reloading the firewall.
+- `/usr/sbin/conntrack`: For killing active data streams when a device is blocked.
 
 ---
 
@@ -113,4 +124,5 @@ Unlike the Network Scanner (which uses ARP/ICMP), the OpenWRT integration is a *
 
 -   **Connection Failed**: Ensure `uhttpd` is running on the router and not blocked by firewall rules limiting access to LAN only.
 -   **No Traffic Data**: Verify `nlbwmon` is running (`ps | grep nlbwmon`) and has gathered data (`ubus call nlbwmon dump`).
+-   **Blocked Devices Still Have Internet**: If a device remains connected after being blocked, it is likely that existing data streams were not killed. Ensure the `/usr/sbin/conntrack` permission is correctly added to `luci-base.json` and that the router has the `conntrack` binary available.
 -   **Missing Devices**: Ensure the device has been discovered by the IPLoom Network Scanner first. The OpenWRT integration ignores unknown devices to prevent database clutter.
