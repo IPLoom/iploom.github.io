@@ -16,7 +16,7 @@ The Home Network Management System (HNMS) is designed as a modular, high-perform
 | **Rock-Solid Stability** | Shared-connection logic resolves database locking issues in high-concurrency environments. |
 | **Timezone Aware** | Optimized timestamp handling with automatic UTC synchronization. |
 | **AdGuard Home** | DNS-level analytics and per-device query tracking. |
-| **OpenWrt Integration** | Sync DHCP leases and real-time traffic data from your router. |
+| **OpenWrt Integration** | Sync DHCP leases, real-time traffic data, and **Immediate Device Blocking** via firewall. |
 | **MQTT & Home Assistant** | Publish device presence as binary sensors to your smart home. |
 
 ---
@@ -129,6 +129,7 @@ HNMS maintains persistent background loops:
 - **Scheduler Loop**: Manages periodic scans based on user-defined intervals.
 - **Scan Runner**: A dedicated queue-based worker that ensures network discovery tasks do not block the main API performance.
 - **Integration Sync**: Periodic polling of OpenWrt and AdGuard data.
+- **Reactive Actions**: Immediate device blocking commands are sent out-of-band to the OpenWrt router using a **"Triple-Tap" enforcement** (UCI priority rule + DROP target + Conntrack flush).
 
 ## Deployment Strategy
 

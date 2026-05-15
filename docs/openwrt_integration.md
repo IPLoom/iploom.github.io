@@ -118,6 +118,13 @@ To ensure traffic is attributed to the correct device, IPLoom uses a multi-layer
 ### 4. Pull Model vs. Real-time
 Unlike the Network Scanner (which uses ARP/ICMP), the OpenWRT integration is a **passive observer**. It doesn't ping devices; it simply asks the router "what have you seen lately?" This makes it extremely lightweight and invisible to the network.
 
+### 5. Immediate Device Blocking (Triple-Tap Enforcement)
+To ensure that internet access is cut off instantly, IPLoom uses a "Triple-Tap" enforcement strategy via the router's firewall:
+- **Priority Rules**: Instead of appending rules, IPLoom uses `uci insert` to place the block rule at the **top** of the firewall chain (Index 0). This ensures it overrides any "Allow" rules for established connections.
+- **Aggressive Target**: Uses the `DROP` target instead of `REJECT`. This is more effective as it simply discards packets, making the device's connection "vanish" from the network's perspective.
+- **Connection Flushing**: The most critical step. Standard firewall rules only affect *new* connections. To stop an active video stream or download, IPLoom executes `conntrack -D` on the router to kill all existing stateful connections for that specific MAC address immediately.
+- **Persistence**: All blocks are committed to the router's configuration (`uci commit`), ensuring they persist across router reboots.
+
 ---
 
 ## Troubleshooting

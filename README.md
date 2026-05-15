@@ -20,7 +20,7 @@ Learn how the core engines of IPLoom work under the hood:
 Connect IPLoom to your existing ecosystem:
 - **[MQTT & Home Assistant](./docs/mqtt_integration.md)**: Real-time presence tracking and automation.
 - **[Home Assistant Integration](./docs/home_assistant_integration.md)**: Full MQTT Discovery guide for HA.
-- **[OpenWrt Integration](./docs/openwrt_integration.md)**: Traffic monitoring and DHCP lease syncing.
+- **[OpenWrt Integration](./docs/openwrt_integration.md)**: Traffic monitoring, DHCP lease syncing, and **Immediate Device Blocking**.
 - **[AdGuard Home Integration](./docs/adguard_integration.md)**: DNS analytics and per-device block tracking.
 
 ## 💻 Developer Resources
