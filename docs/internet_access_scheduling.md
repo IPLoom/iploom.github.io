@@ -6,9 +6,8 @@ The Internet Access Scheduling system allows you to define recurring time window
 
 - **Intuitive Heatmap**: A 7-day, 24-hour visual grid to easily "paint" your blocking windows.
 - **Drag-to-Select**: Click and drag across the heatmap to quickly create schedules covering multiple days and hours.
-- **Manual Override Precedence**: Manual blocks always take priority over schedules. If you manually block a device, it will stay blocked even after a scheduled window ends.
-- **Real-time Status Polling**: The UI automatically updates to reflect status changes applied by the background scheduler.
-- **Automatic Enforcement**: The background worker applies firewall rules every 5 seconds to ensure immediate compliance with your schedules.
+- **Administrator Override**: Administrators can apply a "Highest Priority" unblock to instantly restore access, bypassing all active schedules and quotas.
+- **Premium Confirmation System**: Critical actions like deleting schedules or applying overrides are protected by custom premium modals to prevent accidental changes.
 
 ---
 
@@ -20,7 +19,7 @@ The scheduling system operates through a coordination between the **Backend Sche
 Schedules are stored in the `device_block_schedules` table. Each entry defines a `start_time`, `end_time`, and a list of `days` (0-6, where 0 is Monday).
 
 ### 2. The Background Scheduler
-Every 5 seconds, the background worker:
+Every 60 seconds (periodic check) and instantly on user interaction, the background worker:
 - Retrieves all enabled schedules for all devices.
 - Compares the current local time against the defined windows.
 - Identifies if a device *should* be blocked or allowed.
@@ -31,10 +30,15 @@ When a transition is detected, the scheduler communicates with the OpenWRT route
 - **Blocking**: Adds a `DROP` rule to the top of the firewall and flushes active connections (via `conntrack`).
 - **Unblocking**: Removes the specific firewall rule.
 
-### 4. Manual Overrides
-To prevent automated schedules from accidentally granting access when you want a device restricted:
-- **Manual Block**: Sets `is_manual_block = True` in the database.
-- **Precedence**: When a scheduled window ends, the scheduler checks the `is_manual_block` flag. If it is `True`, the **unblock command is skipped**.
+### 4. Policy Resolver (Priority Matrix)
+The system uses a tiered priority resolver to determine the final state. A device is blocked if **(Manual Block OR Scheduled Block OR Quota Exceeded) AND NOT Manual Unblock**.
+
+| State | Priority | Effect |
+| :--- | :--- | :--- |
+| **Manual Unblock** | 🌟 Highest | Overrides all other restrictions. |
+| **Manual Block** | 🔴 High | Permanent restriction until toggled. |
+| **Scheduled Block** | 🔵 Normal | Restricts during recurring downtime. |
+| **Quota Exceeded** | 🟡 Medium | Restricts until reset period or override. |
 
 ---
 
@@ -50,7 +54,7 @@ To prevent automated schedules from accidentally granting access when you want a
 ### Managing Schedules
 - **Enable/Disable**: Use the toggle switch on each schedule card to temporarily pause a schedule without deleting it.
 - **Edit**: Click the Pencil icon to adjust the name, time, or days.
-- **Delete**: Click the Trash icon to permanently remove a schedule.
+- **Delete**: Click the Trash icon to permanently remove a schedule. This action is protected by a **Premium Confirmation Modal** to prevent accidental deletion.
 
 ---
 

@@ -21,6 +21,7 @@ const menuItems = [
   { id: 'home_assistant_integration', title: 'Home Assistant Integration' },
   { id: 'openwrt_integration', title: 'OpenWrt Integration' },
   { id: 'internet_access_scheduling', title: 'Internet Access Scheduling' },
+  { id: 'internet_data_quotas', title: 'Internet Data Quotas' },
   { id: 'adguard_integration', title: 'AdGuard Home Integration' },
   { id: 'database_schema', title: 'Database Schema' },
   { id: 'api_reference', title: 'API Reference' }

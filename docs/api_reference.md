@@ -16,6 +16,7 @@ A live, interactive Swagger UI is available at:
 | `GET` | `/devices/{id}` | Get detailed metadata for a specific device. |
 | `PATCH` | `/devices/{id}` | Update device settings (display name, trust status). |
 | `DELETE` | `/devices/{id}` | Remove a device from the inventory. |
+| `PATCH` | `/devices/{id}/status` | Manually block/unblock a device (is_manual_block). |
 
 ### Scans
 | Method | Endpoint | Description |
@@ -40,10 +41,29 @@ A live, interactive Swagger UI is available at:
 - **Logs**: `/logs` (Server logs)
 - **Task Events**: `/task-events` (Live progress of background tasks)
 
+### Internet Quotas
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/internet-quotas/devices/{id}` | Get quota configuration for a device. |
+| `POST` | `/internet-quotas/devices/{id}` | Set or update a data quota policy. |
+| `DELETE` | `/internet-quotas/devices/{id}` | Remove a quota policy. |
+| `POST` | `/internet-quotas/devices/{id}/reset` | Manually reset current usage to zero. |
+
+### Internet Schedules
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/internet-schedules/devices/{id}/schedules` | List all schedules for a device. |
+| `POST` | `/internet-schedules/devices/{id}/schedules` | Create a new recurring block window. |
+| `PATCH` | `/internet-schedules/schedules/{id}` | Update or toggle an existing schedule. |
+| `DELETE` | `/internet-schedules/schedules/{id}` | Delete a schedule. |
+
 ## Authentication
 
-> [!NOTE]
-> Currently, IPLoom is designed for local home network use and does not enforce authentication by default. It is recommended to run it behind a reverse proxy (like Nginx or Traefik) if remote access is required.
+All protected API endpoints require a **Bearer JWT Token** in the `Authorization` header. You can obtain a token by authenticating via the `/auth/login` endpoint.
+
+```bash
+Authorization: Bearer <your_jwt_token>
+```
 
 ## Data Formats
 

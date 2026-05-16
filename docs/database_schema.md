@@ -10,6 +10,8 @@ erDiagram
     DEVICES ||--o{ DEVICE-PORTS : "has"
     DEVICES ||--o{ STATUS-HISTORY : "state changes"
     DEVICES ||--o{ TRAFFIC-HISTORY : "usage"
+    DEVICES ||--o{ DEVICE-QUOTAS : "enforced by"
+    DEVICES ||--o{ DEVICE-BLOCK-SCHEDULES : "governed by"
     
     SCANS ||--o{ SCAN-RESULTS : "contains"
     
@@ -22,8 +24,32 @@ erDiagram
         timestamp last_seen
         string vendor
         boolean is_trusted
+        boolean is_blocked
+        boolean is_manual_block
+        boolean is_manual_unblock
+        boolean is_quota_exceeded
+        boolean is_scheduled_block
     }
     
+    DEVICE-QUOTAS {
+        string device_id FK
+        bigint limit_bytes
+        bigint current_usage
+        int period_hours
+        timestamp last_reset_at
+        boolean enabled
+    }
+
+    DEVICE-BLOCK-SCHEDULES {
+        string id PK
+        string device_id FK
+        string name
+        string start_time
+        string end_time
+        string days
+        boolean enabled
+    }
+
     SCANS {
         string id PK
         string target
@@ -58,7 +84,18 @@ erDiagram
 ## Key Tables
 
 ### `devices`
-The core inventory of your network. Every unique MAC address discovered is stored here. If a device changes its IP, the `ip` field is updated, but the historical `mac` link remains.
+The core inventory of your network. Every unique MAC address discovered is stored here. 
+- **Policy Flags**: Tracks the current blocking state across multiple layers:
+    - `is_manual_block`: Administrator manual override.
+    - `is_manual_unblock`: High-priority administrator unblock (bypasses all other rules).
+    - `is_quota_exceeded`: Automatically managed by the Quota service.
+    - `is_scheduled_block`: Automatically managed by the Schedule service.
+
+### `device_quotas`
+Stores bandwidth consumption policies. Linked 1:1 with devices to enforce data caps over recurring periods.
+
+### `device_block_schedules`
+Stores recurring time windows for internet access restriction. Supports 7-day granularity.
 
 ### `scans` & `scan_results`
 Tracks every network scan performed by the system.
