@@ -20,6 +20,7 @@ const menuItems = [
   { id: 'mqtt_integration', title: 'MQTT & Home Assistant' },
   { id: 'home_assistant_integration', title: 'Home Assistant Integration' },
   { id: 'openwrt_integration', title: 'OpenWrt Integration' },
+  { id: 'internet_access_scheduling', title: 'Internet Access Scheduling' },
   { id: 'adguard_integration', title: 'AdGuard Home Integration' },
   { id: 'database_schema', title: 'Database Schema' },
   { id: 'api_reference', title: 'API Reference' }

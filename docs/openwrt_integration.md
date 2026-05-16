@@ -10,6 +10,9 @@ IPLoom uses a **"Pull" model**, connecting to your router via its JSON-RPC API (
 - **Traffic Monitoring**: Tracks Download/Upload usage per device (requires `nlbwmon`) for **all** devices, including Static IPs.
 - **Lease Tracking**: Shows when a device's IP lease will expire.
 - **Static IP Support**: Automatically correlates traffic data for devices with Static IPs by looking them up in the local database.
+- **Immediate Device Blocking**: Cut off internet access instantly using firewall rules and connection flushing.
+- **Internet Access Scheduling**: Automate blocking windows with a visual heatmap and drag-to-select interface (see [Internet Access Scheduling](./internet_access_scheduling.md)).
+- **Manual Override Precedence**: Manual blocks always take priority over schedules, ensuring devices stay restricted when you need them to be.
 - **Scanner Priority**: Respects the network scanner's authority. Does **not** modify device status, name, or last seen dates, and does **not** create new devices that haven't been discovered by the scanner.
 
 ---
