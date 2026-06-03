@@ -117,6 +117,14 @@ IPLoom uses specialized indexes to ensure that historical queries remain fast ev
 - `idx_traffic_timestamp`: Optimized for rendering traffic charts over time.
 - `idx_scan_results_mac`: Correlation between devices and their scan history.
 
+## Timezone and Timestamp Standard
+
+All temporal columns (such as `last_seen`, `changed_at`, `started_at`, etc.) are standardized across the entire system:
+- **Database Storage**: Timestamps are stored in UTC (timezone-naive or timezone-aware matching UTC offsets). DuckDB connections are configured globally with `SET TimeZone='UTC'`.
+- **Client Presentation**: Timezone shifting is performed presentationally on the client-side.
+  - *Web UI*: ApexCharts graphs disable default UTC formatting (`datetimeUTC: false`) to automatically convert and render timestamps in the user's local browser timezone. Luxon parsed DateTimes are localized using `.toLocal()`.
+  - *Mobile App*: Flutter's parsed DateTimes use `.toLocal()` to format and display chart labels and event streams in the device's local timezone.
+
 ## Manual Database Access
 
 Since DuckDB is a file-based database, you can inspect it manually using the DuckDB CLI:
