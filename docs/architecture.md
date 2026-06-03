@@ -18,6 +18,7 @@ The Home Network Management System (HNMS) is designed as a modular, high-perform
 | **AdGuard Home** | DNS-level analytics and per-device query tracking. |
 | **OpenWrt Integration** | Sync DHCP leases, real-time traffic data, and **Immediate Device Blocking** via firewall. |
 | **MQTT & Home Assistant** | Publish device presence as binary sensors to your smart home. |
+| **Tailscale VPN** | Synchronize, monitor, and trust remote VPN overlay nodes directly from the UI. |
 
 ---
 
@@ -127,6 +128,12 @@ graph TD
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) with a custom Glassmorphism theme.
 - **State Management**: Reactive refs and custom stores.
 - **Visuals**: [Lucide Vue](https://lucide.dev/) for premium iconography and [Chart.js](https://www.chartjs.org/) for analytics.
+
+### Mobile Companion App
+- **Framework**: [Flutter](https://flutter.dev/) for native cross-platform execution (Android/iOS).
+- **State Management**: [Provider](https://pub.dev/packages/provider).
+- **HTTP Client**: [Dio](https://pub.dev/packages/dio) with JWT authorization middleware.
+- **SSH Engine**: [dartssh2](https://pub.dev/packages/dartssh2) and [xterm.dart](https://pub.dev/packages/xterm) for terminal sessions.
 
 ### Backend
 - **Framework**: [FastAPI](https://fastapi.tiangolo.com/) for high-performance, type-safe Python development.

@@ -34,19 +34,47 @@ A live, interactive Swagger UI is available at:
 | `POST` | `/classification/rules` | Create a new custom rule. |
 | `PUT` | `/classification/rules/{id}` | Update an existing rule. |
 
+### Custom Brand & Device Assets
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/assets` | List uploaded custom assets (brand logos or device icons). |
+| `POST` | `/assets/upload` | Upload new logo or icon asset (multipart Form-data). |
+| `DELETE` | `/assets/{id}` | Remove custom asset from server storage and database. |
+
 ### Integrations
 - **OpenWrt**: `/integrations/openwrt` (Sync, Test Connection, Block/Unblock device)
 - **AdGuard**:
   - `/integrations/adguard/config`: Config operations
   - `/integrations/adguard/rules` (`POST`): Add, block, or remove AdGuard custom filtering rules dynamically
+- **TP-Link Deco**:
+  - `/integrations/deco/config` (`GET`/`POST`): Read or save Deco gateway connection credentials
+  - `/integrations/deco/verify` (`POST`): Validate administrator login handshake with Deco primary node
+  - `/integrations/deco/sync` (`POST`): Trigger background satellite and client topology synchronization
+  - `/integrations/deco/nodes` (`GET`): List all discovered mesh network access points and satellites
+- **Tailscale**:
+  - `/integrations/tailscale/config` (`GET`/`POST`): Read or save API key configuration and sync intervals
+  - `/integrations/tailscale/verify` (`POST`): Verify Tailscale API key permissions
+  - `/integrations/tailscale/sync` (`POST`): Run immediate background synchronization of vpn nodes
+  - `/integrations/tailscale/devices` (`GET`): List all imported Tailscale VPN overlay nodes
+  - `/integrations/tailscale/devices/{id}` (`PATCH`/`DELETE`): Modify VPN node trust status or remove the node
 - **MQTT**: `/mqtt/status` (Broker configuration status)
 
-### Analytics
+### Analytics & Monitoring
 - **DNS Logs**: `GET /analytics/dns/logs` (Retrieve paginated real-time DNS lookup queries for all devices)
 - **Device DNS Logs**: `GET /analytics/dns/logs/{device_id}` (Retrieve DNS logs for a specific device)
 - **DNS Stats**: `/analytics/dns/stats` (Global DNS block rates and statistics)
-- **System Logs**: `/logs` (App server logs)
-- **Task Events**: `/task-events` (Live progress of running background tasks)
+- **Topology**: `GET /topology` (Retrieve physical node-link graph data representing gateways, mesh APs, and endpoints)
+- **System Logs**: `GET`/`DELETE` `/logs` (Retrieve paginated/filtered system activity logs or clear log history)
+- **Task Events**: `GET /task-events` (Poll chronological progress reports and status levels of running background workers)
+
+### SSH Terminal
+- **WebSocket Shell**: `/ssh/ws/{ip}` (`WebSocket`): Direct, interactive terminal proxy connection to remote machines.
+
+### Notifications
+- **List Notifications**: `GET /notifications` (Fetch recent notifications log with limit and read filters)
+- **Unread Count**: `GET /notifications/unread-count` (Get count of unread alert notifications)
+- **Mark Read**: `POST /notifications/mark-read` (Mark specific alerts or all alerts as read)
+- **Real-time Notifications**: `/notifications/ws` (`WebSocket`): Stream notification events to clients in real-time.
 
 ### Internet Quotas
 | Method | Endpoint | Description |
