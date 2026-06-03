@@ -20,6 +20,7 @@ const menuItems = [
   { id: 'mqtt_integration', title: 'MQTT & Home Assistant' },
   { id: 'home_assistant_integration', title: 'Home Assistant Integration' },
   { id: 'openwrt_integration', title: 'OpenWrt Integration' },
+  { id: 'deco_integration', title: 'TP-Link Deco Integration' },
   { id: 'internet_access_scheduling', title: 'Internet Access Scheduling' },
   { id: 'internet_data_quotas', title: 'Internet Data Quotas' },
   { id: 'adguard_integration', title: 'AdGuard Home Integration' },

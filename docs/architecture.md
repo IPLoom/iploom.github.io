@@ -57,6 +57,32 @@ The Home Network Management System (HNMS) is designed as a modular, high-perform
 
 ---
 
+## Core Design Principles
+
+### 1. IP Scan as the Definitive Source of Truth
+The central tenet of IPLoom is that **local network sweeps are the absolute source of truth**. 
+- The system does **not** rely on third-party router clients or integrations to know if a device is online. 
+- It actively broadcasts ARP requests and conducts parallel ICMP Ping sweeps directly on the local LAN.
+- **Integrations (Deco, OpenWrt, AdGuard) only enrich this truth:** They map secondary parameters like signal strength, active mesh node connections, DHCP leases, and DNS logs, but the backend scanner handles primary hardware visibility and availability state.
+
+### 2. Manual Scans vs. Scheduled background Scans
+IPLoom supports two scanning triggers:
+- **Scheduled Scans (Automatic):** A background worker sweeps the subnet periodically at user-defined intervals (configured in Settings) to maintain history databases.
+- **Manual Scans (Instant):** Users can trigger instant sweeps via the UI. High-speed subnet sweeps are streamed in real-time to the screen via `/discovery/scan/stream` without saving to the persistent DB registry to prevent ledger clutter.
+
+### 3. Dynamic Topology & Mesh Satellite Mapping
+The **Topology Page** uses a physics-based layout engine to visualize your local network. 
+- Satellites and client devices are mapped using parent-child relationships (e.g. `parent_id` matching in the DuckDB ledger).
+- When TP-Link Deco or OpenWrt integrations are enabled, the sync engine maps each Wi-Fi client's connection to the specific satellite unit (`deco_node` or BSSID). 
+- This maps the hardware nodes into a tree structure (*Gateway -> Satellite APs -> Associated Clients*).
+
+### 4. Custom Brands & Device Icon Resolution
+IPLoom utilizes a robust hierarchy to resolve device brands and visual icons:
+- **Built-in Rules Engine:** Matches MAC addresses against the IEEE OUI vendor registry and hostnames against pattern regex.
+- **Custom Asset Management:** Users can upload custom brand logos and custom device icons directly from the Settings page. Manual overrides in the Device Details screen prioritize user choices over automated rules.
+
+---
+
 ## Architecture Overview
 
 The system is split into three main layers:
