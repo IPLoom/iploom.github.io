@@ -47,6 +47,13 @@ mermaid.initialize({
   fontFamily: 'Inter, system-ui, sans-serif',
 })
 
+const unescapeHtml = (str) => {
+  if (!str) return ''
+  const txt = document.createElement('textarea')
+  txt.innerHTML = str
+  return txt.value
+}
+
 const renderMarkdown = async (md) => {
   await initShiki()
   
@@ -54,7 +61,8 @@ const renderMarkdown = async (md) => {
   renderer.code = (token) => {
     const { text, lang } = token
     if (lang === 'mermaid') {
-      return `<div class="mermaid">${text}</div>`
+      const cleanText = unescapeHtml(text)
+      return `<pre class="mermaid">${cleanText}</pre>`
     }
     try {
       return highlighter.codeToHtml(text, { lang, theme: 'github-dark' })
@@ -64,7 +72,7 @@ const renderMarkdown = async (md) => {
   }
   
   marked.setOptions({ renderer })
-  return marked(md)
+  return marked.parse(md)
 }
 
 const fetchDoc = async (docId) => {
