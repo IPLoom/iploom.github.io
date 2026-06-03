@@ -45,6 +45,21 @@ mermaid.initialize({
   theme: 'dark',
   securityLevel: 'loose',
   fontFamily: 'Inter, system-ui, sans-serif',
+  themeVariables: {
+    noteBkgColor: '#1e293b',
+    noteBorderColor: '#334155',
+    noteTextColor: '#f8fafc',
+    actorBkg: '#0f172a',
+    actorBorder: '#334155',
+    actorTextColor: '#f8fafc',
+    signalColor: '#f8fafc',
+    signalLineColor: '#64748b',
+    labelBoxBkgColor: '#1e293b',
+    labelBoxBorderColor: '#334155',
+    labelTextColor: '#f8fafc',
+    loopBkgColor: '#1e293b',
+    background: '#0f172a'
+  }
 })
 
 const unescapeHtml = (str) => {

@@ -135,6 +135,7 @@ The integration exposes the following internal REST endpoints (prefixed at `/int
 | `POST` | `/config`  | Save config and immediately verify the connection        |
 | `POST` | `/verify`  | Test connectivity without saving                         |
 | `POST` | `/sync`    | Trigger an immediate background sync                     |
+| `POST` | `/rules`   | Modify AdGuard user filters. Body: `{"domain": "example.com", "action": "block" | "allow" | "remove"}` |
 
 ---
 

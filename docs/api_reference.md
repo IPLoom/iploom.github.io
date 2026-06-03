@@ -18,12 +18,14 @@ A live, interactive Swagger UI is available at:
 | `DELETE` | `/devices/{id}` | Remove a device from the inventory. |
 | `PATCH` | `/devices/{id}/status` | Manually block/unblock a device (is_manual_block). |
 
-### Scans
+### Discovery & Scans
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `GET` | `/scans` | List historical scan logs. |
-| `POST` | `/scans/trigger` | Manually initiate a new network scan. |
+| `POST` | `/scans/trigger` | Manually initiate a new full database network scan. |
 | `GET` | `/scans/{id}` | Get results of a specific scan. |
+| `POST` | `/discovery/scan` | Trigger a high-speed subnet discovery scan (returns list). |
+| `GET`/`POST` | `/discovery/scan/stream` | Stream subnet discovery scans in real-time as devices are found. |
 
 ### Classification Rules
 | Method | Endpoint | Description |
@@ -33,13 +35,18 @@ A live, interactive Swagger UI is available at:
 | `PUT` | `/classification/rules/{id}` | Update an existing rule. |
 
 ### Integrations
-- **OpenWrt**: `/integrations/openwrt` (Sync, Test Connection)
-- **AdGuard**: `/integrations/adguard` (Stats, Device Mapping)
+- **OpenWrt**: `/integrations/openwrt` (Sync, Test Connection, Block/Unblock device)
+- **AdGuard**:
+  - `/integrations/adguard/config`: Config operations
+  - `/integrations/adguard/rules` (`POST`): Add, block, or remove AdGuard custom filtering rules dynamically
+- **MQTT**: `/mqtt/status` (Broker configuration status)
 
-### System
-- **SSH**: `/ssh` (Terminal connection handling)
-- **Logs**: `/logs` (Server logs)
-- **Task Events**: `/task-events` (Live progress of background tasks)
+### Analytics
+- **DNS Logs**: `GET /analytics/dns/logs` (Retrieve paginated real-time DNS lookup queries for all devices)
+- **Device DNS Logs**: `GET /analytics/dns/logs/{device_id}` (Retrieve DNS logs for a specific device)
+- **DNS Stats**: `/analytics/dns/stats` (Global DNS block rates and statistics)
+- **System Logs**: `/logs` (App server logs)
+- **Task Events**: `/task-events` (Live progress of running background tasks)
 
 ### Internet Quotas
 | Method | Endpoint | Description |

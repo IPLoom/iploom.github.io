@@ -51,6 +51,18 @@ sequenceDiagram
     W->>D: Set status: 'done'
 ```
 
+### ⚡ Real-Time Subnet Streaming Scan (Radar)
+To make discovery scans responsive and avoid HTTP connection timeouts (common with synchronous sweeps on large subnets), IPLoom provides a real-time streaming endpoint:
+- **Endpoint:** `GET`/`POST` `/api/v1/discovery/scan/stream`
+- **Format:** Newline-Delimited JSON (NDJSON) or Server-Sent Events.
+- **Payload Stream:**
+  1. `{"event": "start", "subnet": "192.168.1.0/24"}` (sent immediately to establish connection)
+  2. `{"event": "device", "device": { ... }}` (sent progressively as each IP completes scanning)
+  3. `{"event": "complete"}` (closing event)
+- **Safety Guarantee:** Unlike full database scans, subnet scans **do not write/update the primary SQL database ledger**. Devices are kept in-memory for auditing, allowing users to select and manually onboard newly discovered nodes without polluting the ledger automatically.
+
+---
+
 ## Discovery Methods
 
 ### 1. Scapy ARP Discovery (Preferred)
