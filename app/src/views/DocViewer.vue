@@ -89,6 +89,7 @@ const fetchDoc = async (docId) => {
     const fixedMd = rawMd.replace(/\.\/docs\/(.*)\.md/g, '#/docs/$1')
     
     content.value = await renderMarkdown(fixedMd)
+    loading.value = false
     
     // Render Mermaid diagrams after content is injected
     await nextTick()
@@ -105,7 +106,6 @@ const fetchDoc = async (docId) => {
     }
   } catch (err) {
     error.value = err.message
-  } finally {
     loading.value = false
   }
 }
