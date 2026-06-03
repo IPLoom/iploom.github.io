@@ -1,6 +1,16 @@
 # Setup Guide
 
-IPLoom is designed to be flexible. You can run it as a production-ready Docker container or set it up manually for development.
+IPLoom is designed to be flexible. You can run it as a production-ready Docker container, set it up manually for development, or install the companion Mobile App.
+
+## 📱 Mobile App (Android Companion)
+
+Download the official Android mobile application:
+
+<a href="/iploom-mobile.apk" download class="inline-flex items-center justify-center px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold transition-all shadow-md shadow-emerald-950/20 text-sm my-2">
+  Download Android APK (iploom-mobile.apk)
+</a>
+
+---
 
 ## 🐋 Docker Image
 
