@@ -79,11 +79,45 @@ const renderMarkdown = async (md) => {
       const cleanText = unescapeHtml(text)
       return `<pre class="mermaid">${cleanText}</pre>`
     }
+    
+    let codeHtml = ''
     try {
-      return highlighter.codeToHtml(text, { lang, theme: 'github-dark' })
+      codeHtml = highlighter.codeToHtml(text, { lang, theme: 'github-dark' })
     } catch {
-      return `<pre><code>${text}</code></pre>`
+      const escapedText = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      codeHtml = `<pre><code>${escapedText}</code></pre>`
     }
+    
+    const encodedCode = encodeURIComponent(text)
+    return `
+      <div class="code-block-container group relative my-6 rounded-xl overflow-hidden border border-white/10 bg-slate-950">
+        <div class="flex items-center justify-between px-4 py-2 bg-slate-900/60 border-b border-white/5 text-xs text-slate-400 font-mono select-none">
+          <span>${lang || 'code'}</span>
+          <button 
+            class="copy-code-btn px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 active:scale-95 transition-all text-slate-300 hover:text-white"
+            data-code="${encodedCode}"
+            onclick="
+              const code = decodeURIComponent(this.getAttribute('data-code'));
+              navigator.clipboard.writeText(code).then(() => {
+                const btn = this;
+                const orig = btn.innerText;
+                btn.innerText = 'Copied!';
+                btn.style.color = '#34d399';
+                setTimeout(() => {
+                  btn.innerText = orig;
+                  btn.style.color = '';
+                }, 2000);
+              });
+            "
+          >
+            Copy
+          </button>
+        </div>
+        <div class="p-0 overflow-x-auto text-sm">
+          ${codeHtml}
+        </div>
+      </div>
+    `
   }
   
   marked.setOptions({ renderer })
