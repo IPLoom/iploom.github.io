@@ -37,6 +37,9 @@ if [ $buildStatus -eq 0 ]; then
         cp "$appDir/dist/index.template.html" index.html
     fi
 
+    # Copy the mobile APK from public/ to the root for production static downloads
+    [ -f "$publicDir/iploom-mobile.apk" ] && cp "$publicDir/iploom-mobile.apk" iploom-mobile.apk
+
     # 4. Cleanup Post-Build
     echo "🧹 Cleaning up temporary files..."
     rm -rf "$appDir/dist"

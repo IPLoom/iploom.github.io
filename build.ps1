@@ -50,6 +50,11 @@ if ($buildStatus -eq 0) {
         Copy-Item -Path "$appDir\dist\index.template.html" -Destination "index.html" -Force
     }
 
+    # Copy the mobile APK from public/ to the root for production static downloads
+    if (Test-Path "$publicDir\iploom-mobile.apk") {
+        Copy-Item -Path "$publicDir\iploom-mobile.apk" -Destination "iploom-mobile.apk" -Force
+    }
+
     # 4. Cleanup Post-Build
     Write-Host "Cleaning up temporary files..." -ForegroundColor Gray
     Remove-Item -Path "$appDir\dist" -Recurse -Force -ErrorAction SilentlyContinue
