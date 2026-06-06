@@ -94,3 +94,29 @@
   font-size: 11px;
   font-weight: 600;
 }
+
+/* Companion App Download Card */
+.download-card {
+  @apply flex flex-col md:flex-row items-center justify-between gap-6 p-6 my-8 rounded-2xl border border-emerald-500/20 bg-emerald-500/5 backdrop-blur-sm shadow-lg shadow-emerald-950/10 transition-all duration-300 hover:border-emerald-500/30 hover:bg-emerald-500/10;
+}
+
+.download-icon-wrapper {
+  @apply flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 shadow-inner;
+}
+
+.download-info-wrapper {
+  @apply flex-grow text-center md:text-left;
+}
+
+.download-info-wrapper h4 {
+  @apply text-lg font-bold text-white mb-1 !mt-0 !mb-1;
+}
+
+.download-info-wrapper p {
+  @apply text-sm text-slate-400 !mb-0;
+}
+
+.download-action-btn {
+  @apply flex-shrink-0 inline-flex items-center justify-center px-6 py-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl font-bold transition-all shadow-md shadow-emerald-950/20 text-sm no-underline active:scale-95 hover:-translate-y-0.5 select-none;
+}
+

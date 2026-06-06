@@ -6,9 +6,24 @@ IPLoom is designed to be flexible. You can run it as a production-ready Docker c
 
 Download the official Android mobile application:
 
-<a href="./iploom-mobile.apk" download class="inline-flex items-center justify-center px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-bold transition-all shadow-md shadow-emerald-950/20 text-sm my-2">
-  Download Android APK (iploom-mobile.apk)
-</a>
+<div class="download-card">
+  <div class="download-icon-wrapper">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <rect x="5" y="2" width="14" height="20" rx="2" ry="2" stroke-width="2"></rect>
+      <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="2" stroke-linecap="round"></line>
+    </svg>
+  </div>
+  <div class="download-info-wrapper">
+    <h4>Android Companion App</h4>
+    <p>Install the companion app for real-time presence tracking, push notifications, and local SSH terminal management.</p>
+  </div>
+  <a href="./iploom-mobile.apk" download class="download-action-btn">
+    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+    </svg>
+    Download APK
+  </a>
+</div>
 
 ---
 
@@ -42,8 +57,6 @@ Configure the container behavior using these environment variables:
 | `DB_PATH` | `/data/network_scanner.duckdb` | Path to the database file inside the container. |
 | `DB_SCHEMA_PATH` | `app/schema.sql` | Path to the schema file inside the container. |
 | `WORKERS` | `1` | Number of concurrent scan workers (1 is recommended for Raspberry Pi). |
-| `MQTT_ENABLED` | `false` | Set to `true` to enable MQTT publishing. |
-| `MQTT_HOST` | `localhost` | IP/Hostname of your MQTT broker. |
 
 ### 3. Docker Compose
 Create a `docker-compose.yml` file:
@@ -83,7 +96,7 @@ The scanner requires raw socket access to perform ARP requests.
 ```bash
 docker-compose up -d
 ```
-Access the UI at `http://localhost:8000`.
+Access the UI at `http://localhost` (port 80).
 
 ---
 
@@ -104,7 +117,7 @@ If you want to contribute to the project or run it natively:
 4.  **Run**:
     ```bash
     # Note: Must run as Admin/Sudo for scanning
-    python -m uvicorn app.main:app --reload --port 8001
+    python -m uvicorn app.main:app --reload --port 8000
     ```
 
 ### Frontend (Vue 3)
